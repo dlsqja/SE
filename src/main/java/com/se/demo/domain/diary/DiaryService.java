@@ -2,6 +2,7 @@ package com.se.demo.domain.diary;
 
 import com.se.demo.domain.diary.dto.DiaryRequest;
 import com.se.demo.domain.diary.dto.DiaryResponse;
+import com.se.demo.global.Emotion;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -42,18 +43,20 @@ public class DiaryService {
         else return new DiaryResponse(newDiary.getDate(),0);
     }
 
-    public  Map<Integer,Integer> statistic(LocalDate localDate)
+    public  Map<String,Integer> statistic(LocalDate localDate)
     {
         Optional<List<Diary>> optionalDiaries = diaryRepository.findAllByDate(localDate);
         Integer[] totalList = new Integer[]{0,0,0,0,0,0};
-        Map<Integer,Integer> listMap = new HashMap<>();
+        Map<String,Integer> listMap = new HashMap<>();
+        Emotion[] emotions = Emotion.values();
         if(optionalDiaries.isPresent())
         {
             List<Diary> diaryList = optionalDiaries.get();
             diaryList.forEach(diary -> totalList[diary.getEmotion().ordinal()]++);
 
             for(int i = 0;i<totalList.length;i++) {
-                listMap.put(i, totalList[i]);
+
+                listMap.put(emotions[i].toString(), totalList[i]);
             }
 
             return listMap;
@@ -61,7 +64,7 @@ public class DiaryService {
         else
         {
             for(int i = 0;i<totalList.length;i++) {
-                listMap.put(i, 0);
+                listMap.put(emotions[i].toString(), 0);
             }
             return listMap;
         }

@@ -17,6 +17,6 @@ public class DiaryRequest {
     private LocalDate date;
     private String title;
     private String content;
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     private Emotion emotion;
 }

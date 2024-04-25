@@ -32,7 +32,7 @@ public class DiaryController {
     @GetMapping("/tomorrow")
     public ResponseEntity<Object> statistic(@RequestParam("tomorrowDate") LocalDate localDate)
     {
-        Map<Integer,Integer> resultList = diaryService.statistic(localDate);
+        Map<String,Integer> resultList = diaryService.statistic(localDate);
 
         return ResponseEntity.ok().body(new CustomResponse(resultList));
     }
