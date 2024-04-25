@@ -1,11 +1,18 @@
 package com.se.demo.domain.user;
 
-import com.se.demo.domain.user.dto.UserRequest;
-import com.se.demo.domain.user.dto.UserResponse;
+import com.se.demo.domain.user.dto.AuthRequest;
+import com.se.demo.domain.user.dto.AuthResponse;
+import com.se.demo.global.CustomResponse;
+import com.se.demo.global.ErrorResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -14,20 +21,39 @@ import org.springframework.transaction.annotation.Transactional;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    /*
-    public UserResponse login(String id,String password)
+
+
+    public ResponseEntity<Object> login(AuthRequest authRequest)
     {
+        String id = authRequest.getId();
+        String password = authRequest.getPassword();
 
+        Optional<User> OptionalFindUser = userRepository.findById(id);
+        if(OptionalFindUser.isPresent())
+        {
+            User findUser = OptionalFindUser.get();
+            if(passwordEncoder.matches(password, findUser.getPassword()))
+            {
+                AuthResponse authResponse = new AuthResponse(findUser);
+                return ResponseEntity.ok().body(new CustomResponse(authResponse));            }
+            else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse("password is not matches"));
+            }
+        }
+        else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse("not exist"));
+        }
     }
-*/
-    public UserResponse register(UserRequest userRequest)
-    {
-        String nickname = userRequest.getNickname();
-        String id = userRequest.getId();
-        String password = userRequest.getPassword();
 
-        Boolean isExist = userRepository.findById(id).isPresent();
+    public AuthResponse register(AuthRequest authRequest)
+    {
+        String nickname = authRequest.getNickname();
+        String id = authRequest.getId();
+        String password = passwordEncoder.encode(authRequest.getPassword());
+
+        boolean isExist = userRepository.findById(id).isPresent();
 
         if(!isExist)
         {
@@ -39,7 +65,7 @@ public class UserService {
 
             User findUser = userRepository.save(newUser);
 
-            return new UserResponse(findUser);
+            return new AuthResponse(findUser);
         }
         else return null;
 

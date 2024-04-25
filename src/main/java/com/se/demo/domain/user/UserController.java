@@ -1,7 +1,7 @@
 package com.se.demo.domain.user;
 
-import com.se.demo.domain.user.dto.UserRequest;
-import com.se.demo.domain.user.dto.UserResponse;
+import com.se.demo.domain.user.dto.AuthRequest;
+import com.se.demo.domain.user.dto.AuthResponse;
 import com.se.demo.global.CustomResponse;
 import com.se.demo.global.ErrorResponse;
 import lombok.RequiredArgsConstructor;
@@ -21,27 +21,24 @@ public class UserController {
 
     private final UserService userService;
 
-    /*
     @PostMapping("/login")
-    public ResponseEntity<UserResponse> login(@RequestBody UserRequest userRequest)
+    public ResponseEntity<Object> login(@RequestBody AuthRequest authRequest)
     {
-
-        return
+        return userService.login(authRequest);
     }
-    */
+
 
     @PostMapping("/register")
-    public ResponseEntity<Object> register(@RequestBody UserRequest userRequest)
+    public ResponseEntity<Object> register(@RequestBody AuthRequest authRequest)
     {
 
-        UserResponse userResponse = userService.register(userRequest);
+        AuthResponse authResponse = userService.register(authRequest);
 
 
-        if(userResponse == null){
-            log.info("isnull");
+        if(authResponse == null){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse("duplicate id"));
         }
-        return ResponseEntity.ok().body(new CustomResponse(userResponse));
+        return ResponseEntity.ok().body(new CustomResponse(authResponse));
 
     }
 }

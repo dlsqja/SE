@@ -1,18 +1,19 @@
 package com.se.demo.domain.user.dto;
 
 import com.se.demo.domain.user.User;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class UserResponse implements Serializable {
+public class AuthResponse {
 
     private Long userId;
     private String nickname;
 
-    public UserResponse(User user)
+    public AuthResponse(User user)
     {
         this.userId=user.getUserId();
         this.nickname=user.getNickname();
