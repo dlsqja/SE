@@ -29,6 +29,17 @@ public class DiaryController {
         return ResponseEntity.ok().body(new CustomResponse(diaryResponse));
     }
 
+    @PostMapping("/modify")
+    public ResponseEntity<Object> modify(@RequestBody DiaryRequest diaryRequest)
+    {
+        DiaryResponse diaryResponse = diaryService.modify(diaryRequest);
+
+        if(diaryResponse == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse("not exist diary"));
+        }
+        return ResponseEntity.ok().body(new CustomResponse(diaryResponse));
+    }
+
     @GetMapping("/tomorrow")
     public ResponseEntity<Object> statistic(@RequestParam("tomorrowDate") LocalDate localDate)
     {

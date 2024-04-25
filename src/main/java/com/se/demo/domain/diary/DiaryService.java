@@ -68,7 +68,24 @@ public class DiaryService {
             }
             return listMap;
         }
+    }
 
+    public DiaryResponse modify(DiaryRequest diaryRequest)
+    {
+        Long userId = diaryRequest.getUserId();
+        LocalDate date = diaryRequest.getDate();
+        Optional<Diary> optionalDiary = diaryRepository.findByUserIdAndDate(userId, date);
 
+        if(optionalDiary.isPresent())
+        {
+            Diary diary = optionalDiary.get();
+
+            diary.setContent(diaryRequest.getContent());
+            diary.setTitle(diaryRequest.getTitle());
+            diary.setEmotion(diaryRequest.getEmotion());
+
+            return new DiaryResponse(diary.getDate(),0);
+        }
+        else return null;
     }
 }

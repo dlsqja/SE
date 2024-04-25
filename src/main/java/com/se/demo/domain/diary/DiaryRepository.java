@@ -1,6 +1,7 @@
 package com.se.demo.domain.diary;
 
 import com.se.demo.global.Emotion;
+import org.springframework.cglib.core.Local;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -11,6 +12,8 @@ import java.util.Optional;
 @Repository
 public interface DiaryRepository extends JpaRepository<Diary,Long> {
     Optional<List<Diary>> findAllByDateAndEmotion(LocalDate date, Emotion emotion);
+
+    Optional<Diary> findByUserIdAndDate(Long userId, LocalDate localDate);
 
     Optional<List<Diary>> findAllByDate(LocalDate date);
 }
