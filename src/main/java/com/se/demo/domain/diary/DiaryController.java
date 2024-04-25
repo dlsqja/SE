@@ -12,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -40,13 +42,33 @@ public class DiaryController {
         return ResponseEntity.ok().body(new CustomResponse(diaryResponse));
     }
 
-    @GetMapping("/tomorrow")
-    public ResponseEntity<Object> statistic(@RequestParam("tomorrowDate") LocalDate localDate)
+    @GetMapping("/tomorrow/{tomorrowDate}")
+    public ResponseEntity<Object> statistic(@PathVariable("tomorrowDate") LocalDate localDate)
     {
         Map<String,Integer> resultList = diaryService.statistic(localDate);
 
         return ResponseEntity.ok().body(new CustomResponse(resultList));
     }
 
+    @GetMapping("/detail")
+    public ResponseEntity<Object> detail(@RequestParam("date") LocalDate date,@RequestParam("userId") Long userId)
+    {
+        Diary diary = diaryService.detail(userId, date);
+
+        if(diary == null){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse("not exist diary"));
+        }
+        return ResponseEntity.ok().body(new CustomResponse(diary));
+    }
+    @GetMapping("/calander")
+    public ResponseEntity<Object> calander(@RequestParam("date") LocalDate date,@RequestParam("userId") Long userId)
+    {
+        List<Diary> diary = diaryService.calander(userId, date);
+
+        if(diary == null){
+            return ResponseEntity.ok().body(new CustomResponse(new ArrayList<>()));
+        }
+        return ResponseEntity.ok().body(new CustomResponse(diary));
+    }
 
 }

@@ -88,4 +88,21 @@ public class DiaryService {
         }
         else return null;
     }
+
+    public Diary detail(Long userId,LocalDate date)
+    {
+
+        Optional<Diary> optionalDiary = diaryRepository.findByUserIdAndDate(userId,date);
+
+        return optionalDiary.get();
+    }
+    public List<Diary> calander(Long userId,LocalDate date)
+    {
+        LocalDate startOfMonth = date.withDayOfMonth(1);
+        LocalDate endOfMonth = date.withDayOfMonth(date.lengthOfMonth());
+
+        Optional<List<Diary>> optionalDiary = diaryRepository.findAllByDateAfterAndDateBeforeAndUserIdOrderByDate(startOfMonth,endOfMonth,userId);
+
+        return optionalDiary.get();
+    }
 }

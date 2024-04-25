@@ -13,7 +13,10 @@ import java.util.Optional;
 public interface DiaryRepository extends JpaRepository<Diary,Long> {
     Optional<List<Diary>> findAllByDateAndEmotion(LocalDate date, Emotion emotion);
 
+    Optional<List<Diary>> findAllByDateAfterAndDateBeforeAndUserIdOrderByDate(LocalDate startDate,LocalDate endDate,Long userId);
     Optional<Diary> findByUserIdAndDate(Long userId, LocalDate localDate);
 
     Optional<List<Diary>> findAllByDate(LocalDate date);
+
+
 }
