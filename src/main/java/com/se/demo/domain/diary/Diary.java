@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Getter
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class diary {
+public class Diary {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

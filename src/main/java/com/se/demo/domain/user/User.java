@@ -11,11 +11,11 @@ import lombok.*;
 @Getter
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class user {
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long diaryId;
+    private Long userId;
 
     private String nickname;
     private String id;
