@@ -39,6 +39,5 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse("duplicate id"));
         }
         return ResponseEntity.ok().body(new CustomResponse(authResponse));
-
     }
 }

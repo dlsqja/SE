@@ -1,27 +1,22 @@
-package com.se.demo.domain.diary;
+package com.se.demo.domain.diary.dto;
 
 import com.se.demo.global.Emotion;
-import jakarta.persistence.*;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.*;
 
 import java.time.LocalDate;
 
-@Entity
 @Builder
 @Getter
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Diary {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long diaryId;
+public class DiaryRequest {
 
     private Long userId;
+    private LocalDate date;
     private String title;
     private String content;
-    private LocalDate date;
     @Enumerated(EnumType.ORDINAL)
     private Emotion emotion;
-
 }

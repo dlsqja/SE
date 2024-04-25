@@ -1,9 +1,18 @@
 package com.se.demo.domain.diary;
 
+import com.se.demo.domain.diary.dto.DiaryRequest;
+import com.se.demo.domain.diary.dto.DiaryResponse;
+import com.se.demo.domain.user.dto.AuthRequest;
+import com.se.demo.domain.user.dto.AuthResponse;
+import com.se.demo.global.CustomResponse;
+import com.se.demo.global.ErrorResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/diarys")
@@ -11,5 +20,22 @@ import org.springframework.web.bind.annotation.RestController;
 public class DiaryController {
 
     private final DiaryService diaryService;
+
+    @PostMapping("/upload")
+    public ResponseEntity<Object> upload(@RequestBody DiaryRequest diaryRequest)
+    {
+        DiaryResponse diaryResponse = diaryService.upload(diaryRequest);
+
+        return ResponseEntity.ok().body(new CustomResponse(diaryResponse));
+    }
+
+    @GetMapping("/tomorrow")
+    public ResponseEntity<Object> statistic(@RequestParam("tomorrowDate") LocalDate localDate)
+    {
+        Map<Integer,Integer> resultList = diaryService.statistic(localDate);
+
+        return ResponseEntity.ok().body(new CustomResponse(resultList));
+    }
+
 
 }
