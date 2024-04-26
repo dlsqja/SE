@@ -57,6 +57,7 @@ public class DiaryController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse("not exist diary"));
         }
         return ResponseEntity.ok().body(new CustomResponse(diary));
+        
     }
     @GetMapping("/calendar")
     public ResponseEntity<Object> calendar(@RequestParam("date") LocalDate date,@RequestParam("userId") Long userId)
