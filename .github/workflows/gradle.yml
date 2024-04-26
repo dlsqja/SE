@@ -32,7 +32,7 @@ jobs:
 
       # docker image 빌드
       - name: Build docker image
-        run: docker build -t sebuild .
+        run: docker build -t ${{ secrets.DOCKER_IMAGE_NAME }} .
 
       # docker hub 로그인
       - name: Login docker hub
@@ -43,11 +43,11 @@ jobs:
 
       # docker image tag
       - name: docker image tag change
-        run: docker tag sebuild:latest ${{ secrets.DOCKERHUB_USERNAME }}/sebuild
+        run: docker tag ${{ secrets.DOCKER_IMAGE_NAME }}:latest ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}
         
       # docker hub 퍼블리시
       - name: Publish to docker hub
-        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/sebuild:latest
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
 
         
       # WAS 인스턴스 접속 & 애플리케이션 실행
@@ -60,8 +60,8 @@ jobs:
           port: ${{ secrets.WAS_SSH_PORT }}
           script: |
             echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin 
-            docker stop $(docker ps -a -q) 
-            docker rm $(docker ps -a -q) 
-            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/sebuild:latest
-            docker run -d -p 8080:8080 --name sebackend-app ${{ secrets.DOCKERHUB_USERNAME }}/sebuild:latest
+            docker stop $(docker ps -a -q --filter="name=${{ secrets.DOCKER_CONTAINER_NAME }}") 
+            docker rm $(docker ps -a -q --filter="name=${{ secrets.DOCKER_CONTAINER_NAME }}") 
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
+            docker run -d -p 8080:80 --name ${{ secrets.DOCKER_CONTAINER_NAME }} ${{ secrets.DOCKERHUB_USERNAME }}/${{ secrets.DOCKER_IMAGE_NAME }}:latest
 
