@@ -2,10 +2,8 @@ package com.se.demo.domain.diary;
 
 import com.se.demo.domain.diary.dto.DiaryRequest;
 import com.se.demo.domain.diary.dto.DiaryResponse;
-import com.se.demo.domain.user.dto.AuthRequest;
-import com.se.demo.domain.user.dto.AuthResponse;
-import com.se.demo.global.CustomResponse;
-import com.se.demo.global.ErrorResponse;
+import com.se.demo.global.response.CustomResponse;
+import com.se.demo.global.response.ErrorResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -60,8 +58,8 @@ public class DiaryController {
         }
         return ResponseEntity.ok().body(new CustomResponse(diary));
     }
-    @GetMapping("/calander")
-    public ResponseEntity<Object> calander(@RequestParam("date") LocalDate date,@RequestParam("userId") Long userId)
+    @GetMapping("/calendar")
+    public ResponseEntity<Object> calendar(@RequestParam("date") LocalDate date,@RequestParam("userId") Long userId)
     {
         List<Diary> diary = diaryService.calander(userId, date);
 
