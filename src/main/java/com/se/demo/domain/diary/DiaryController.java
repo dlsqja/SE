@@ -26,7 +26,7 @@ public class DiaryController {
     {
         DiaryResponse diaryResponse = diaryService.upload(diaryRequest);
 
-        return ResponseEntity.ok().body(new CustomResponse(diaryResponse));
+        return ResponseEntity.ok(new CustomResponse(diaryResponse));
     }
 
     @PostMapping("/modify")
@@ -37,7 +37,7 @@ public class DiaryController {
         if(diaryResponse == null){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse("not exist diary"));
         }
-        return ResponseEntity.ok().body(new CustomResponse(diaryResponse));
+        return ResponseEntity.ok(new CustomResponse(diaryResponse));
     }
 
     @GetMapping("/tomorrow/{tomorrowDate}")
@@ -45,7 +45,7 @@ public class DiaryController {
     {
         Map<String,Integer> resultList = diaryService.statistic(localDate);
 
-        return ResponseEntity.ok().body(new CustomResponse(resultList));
+        return ResponseEntity.ok(new CustomResponse(resultList));
     }
 
     @GetMapping("/detail")
@@ -56,7 +56,7 @@ public class DiaryController {
         if(diary == null){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorResponse("not exist diary"));
         }
-        return ResponseEntity.ok().body(new CustomResponse(diary));
+        return ResponseEntity.ok(new CustomResponse(diary));
 
     }
     @GetMapping("/calendar")
@@ -65,9 +65,9 @@ public class DiaryController {
         List<Diary> diary = diaryService.calander(userId, date);
 
         if(diary == null){
-            return ResponseEntity.ok().body(new CustomResponse(new ArrayList<>()));
+            return ResponseEntity.ok(new CustomResponse(new ArrayList<>()));
         }
-        return ResponseEntity.ok().body(new CustomResponse(diary));
+        return ResponseEntity.ok(new CustomResponse(diary));
     }
 
 }
