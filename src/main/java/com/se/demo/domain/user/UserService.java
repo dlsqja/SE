@@ -2,6 +2,7 @@ package com.se.demo.domain.user;
 
 import com.se.demo.domain.user.dto.AuthRequest;
 import com.se.demo.domain.user.dto.AuthResponse;
+import com.se.demo.domain.user.dto.LoginRequest;
 import com.se.demo.global.response.CustomResponse;
 import com.se.demo.global.response.ErrorResponse;
 import lombok.RequiredArgsConstructor;
@@ -25,10 +26,10 @@ public class UserService {
 
 
 
-    public ResponseEntity<Object> login(AuthRequest authRequest)
+    public ResponseEntity<Object> login(LoginRequest loginRequest)
     {
-        String id = authRequest.getId();
-        String password = authRequest.getPassword();
+        String id = loginRequest.getId();
+        String password = loginRequest.getPassword();
 
         Optional<User> OptionalFindUser = userRepository.findById(id);
         if(OptionalFindUser.isPresent())

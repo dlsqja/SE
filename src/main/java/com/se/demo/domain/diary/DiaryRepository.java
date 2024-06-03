@@ -14,9 +14,12 @@ public interface DiaryRepository extends JpaRepository<Diary,Long> {
     Optional<List<Diary>> findAllByDateAndEmotion(LocalDate date, Emotion emotion);
 
     Optional<List<Diary>> findAllByDateAfterAndDateBeforeAndUserIdOrderByDate(LocalDate startDate,LocalDate endDate,Long userId);
+    Optional<List<Diary>> findAllByUserIdOrderByDate(Long userId);
     Optional<Diary> findByUserIdAndDate(Long userId, LocalDate localDate);
 
     Optional<List<Diary>> findAllByDate(LocalDate date);
+
+
 
 
 }

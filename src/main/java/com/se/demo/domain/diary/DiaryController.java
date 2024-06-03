@@ -29,6 +29,14 @@ public class DiaryController {
         return ResponseEntity.ok(new CustomResponse(diaryResponse));
     }
 
+    @GetMapping("/findAll")
+    public ResponseEntity<Object> findAll(@RequestBody Long userId)
+    {
+        List<Diary> diaryResponse = diaryService.findAll(userId);
+
+        return ResponseEntity.ok(new CustomResponse(diaryResponse));
+    }
+
     @PostMapping("/modify")
     public ResponseEntity<Object> modify(@RequestBody DiaryRequest diaryRequest)
     {
@@ -69,5 +77,7 @@ public class DiaryController {
         }
         return ResponseEntity.ok(new CustomResponse(diary));
     }
+
+
 
 }

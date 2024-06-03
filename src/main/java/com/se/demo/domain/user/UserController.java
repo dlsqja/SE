@@ -2,6 +2,7 @@ package com.se.demo.domain.user;
 
 import com.se.demo.domain.user.dto.AuthRequest;
 import com.se.demo.domain.user.dto.AuthResponse;
+import com.se.demo.domain.user.dto.LoginRequest;
 import com.se.demo.global.response.CustomResponse;
 import com.se.demo.global.response.ErrorResponse;
 import lombok.RequiredArgsConstructor;
@@ -22,9 +23,9 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/login")
-    public ResponseEntity<Object> login(@RequestBody AuthRequest authRequest)
+    public ResponseEntity<Object> login(@RequestBody LoginRequest loginRequest)
     {
-        return userService.login(authRequest);
+        return userService.login(loginRequest);
     }
 
 

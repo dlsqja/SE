@@ -105,4 +105,12 @@ public class DiaryService {
 
         return optionalDiary.get();
     }
+
+    public List<Diary> findAll(Long userId)
+    {
+
+        Optional<List<Diary>> optionalDiary = diaryRepository.findAllByUserIdOrderByDate(userId);
+
+        return optionalDiary.get();
+    }
 }
