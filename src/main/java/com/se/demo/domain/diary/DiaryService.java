@@ -94,7 +94,7 @@ public class DiaryService {
 
         Optional<Diary> optionalDiary = diaryRepository.findByUserIdAndDate(userId,date);
 
-        return optionalDiary.get();
+        return optionalDiary.orElse(null);
     }
     public List<Diary> calander(Long userId,LocalDate date)
     {
@@ -103,7 +103,7 @@ public class DiaryService {
 
         Optional<List<Diary>> optionalDiary = diaryRepository.findAllByDateAfterAndDateBeforeAndUserIdOrderByDate(startOfMonth,endOfMonth,userId);
 
-        return optionalDiary.get();
+        return optionalDiary.orElse(null);
     }
 
     public List<Diary> findAll(Long userId)
@@ -111,6 +111,6 @@ public class DiaryService {
 
         Optional<List<Diary>> optionalDiary = diaryRepository.findAllByUserIdOrderByDate(userId);
 
-        return optionalDiary.get();
+        return optionalDiary.orElse(null);
     }
 }
